@@ -1,172 +1,94 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import ChatList from '@/components/ChatList';
-import ChatWindow from '@/components/ChatWindow';
-import { Chat, Message } from '@/types';
-
-const initialChats: Chat[] = [
-  {
-    id: '1',
-    name: 'Alice Johnson',
-    avatar: '👩',
-    lastMessage: 'Hey! How are you doing?',
-    timestamp: new Date(Date.now() - 1000 * 60 * 5),
-    unread: 2,
-  },
-  {
-    id: '2',
-    name: 'Bob Smith',
-    avatar: '👨',
-    lastMessage: 'Did you see the game last night?',
-    timestamp: new Date(Date.now() - 1000 * 60 * 30),
-    unread: 0,
-  },
-  {
-    id: '3',
-    name: 'Carol Williams',
-    avatar: '👩‍🦰',
-    lastMessage: 'Thanks for your help!',
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
-    unread: 1,
-  },
-  {
-    id: '4',
-    name: 'David Brown',
-    avatar: '👨‍🦱',
-    lastMessage: 'Let\'s meet tomorrow',
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5),
-    unread: 0,
-  },
-  {
-    id: '5',
-    name: 'Emma Davis',
-    avatar: '👩‍🦳',
-    lastMessage: 'Perfect! See you then',
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24),
-    unread: 0,
-  },
-];
-
-const initialMessages: { [chatId: string]: Message[] } = {
-  '1': [
-    {
-      id: '1',
-      text: 'Hey! How are you doing?',
-      timestamp: new Date(Date.now() - 1000 * 60 * 10),
-      sender: 'them',
-    },
-    {
-      id: '2',
-      text: 'I\'m doing great! Thanks for asking',
-      timestamp: new Date(Date.now() - 1000 * 60 * 8),
-      sender: 'me',
-    },
-    {
-      id: '3',
-      text: 'That\'s wonderful to hear!',
-      timestamp: new Date(Date.now() - 1000 * 60 * 5),
-      sender: 'them',
-    },
-  ],
-  '2': [
-    {
-      id: '1',
-      text: 'Did you see the game last night?',
-      timestamp: new Date(Date.now() - 1000 * 60 * 30),
-      sender: 'them',
-    },
-  ],
-  '3': [
-    {
-      id: '1',
-      text: 'Could you help me with the project?',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
-      sender: 'them',
-    },
-    {
-      id: '2',
-      text: 'Of course! What do you need?',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
-      sender: 'me',
-    },
-    {
-      id: '3',
-      text: 'Thanks for your help!',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
-      sender: 'them',
-    },
-  ],
-  '4': [
-    {
-      id: '1',
-      text: 'Let\'s meet tomorrow',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5),
-      sender: 'them',
-    },
-  ],
-  '5': [
-    {
-      id: '1',
-      text: 'Perfect! See you then',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24),
-      sender: 'them',
-    },
-  ],
-};
+import Link from "next/link";
 
 export default function Home() {
-  const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
-  const [chats, setChats] = useState<Chat[]>(initialChats);
-  const [messages, setMessages] = useState<{ [chatId: string]: Message[] }>(initialMessages);
-
-  const selectedChat = chats.find((chat) => chat.id === selectedChatId);
-
-  const handleSendMessage = (text: string) => {
-    if (!selectedChatId) return;
-
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      text,
-      timestamp: new Date(),
-      sender: 'me',
-    };
-
-    setMessages((prev) => ({
-      ...prev,
-      [selectedChatId]: [...(prev[selectedChatId] || []), newMessage],
-    }));
-
-    setChats((prev) =>
-      prev.map((chat) =>
-        chat.id === selectedChatId
-          ? { ...chat, lastMessage: text, timestamp: new Date() }
-          : chat
-      )
-    );
-  };
-
-  const handleSelectChat = (chatId: string) => {
-    setSelectedChatId(chatId);
-    setChats((prev) =>
-      prev.map((chat) =>
-        chat.id === chatId ? { ...chat, unread: 0 } : chat
-      )
-    );
-  };
-
   return (
-    <div className="flex h-screen bg-gray-100">
-      <ChatList
-        chats={chats}
-        selectedChatId={selectedChatId}
-        onSelectChat={handleSelectChat}
-      />
-      <ChatWindow
-        chat={selectedChat}
-        messages={selectedChatId ? messages[selectedChatId] || [] : []}
-        onSendMessage={handleSendMessage}
-      />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="mb-8">
+            <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+              AI Website Builder
+            </h1>
+            <p className="text-2xl text-gray-600 mb-8">
+              Build complete websites with the power of AI
+            </p>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-xl p-12 mb-8">
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              <div className="text-center">
+                <div className="text-5xl mb-4">🤖</div>
+                <h3 className="text-xl font-semibold mb-2">AI-Powered</h3>
+                <p className="text-gray-600">
+                  Leverages advanced AI to understand your requirements and generate code
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="text-5xl mb-4">⚡</div>
+                <h3 className="text-xl font-semibold mb-2">Instant Preview</h3>
+                <p className="text-gray-600">
+                  See your website come to life in real-time with live preview
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="text-5xl mb-4">🎨</div>
+                <h3 className="text-xl font-semibold mb-2">Full Customization</h3>
+                <p className="text-gray-600">
+                  Iterate and refine with conversational AI until it's perfect
+                </p>
+              </div>
+            </div>
+
+            <Link
+              href="/builder"
+              className="inline-block px-12 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-semibold rounded-lg hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+            >
+              Start Building →
+            </Link>
+          </div>
+
+          <div className="bg-white/50 backdrop-blur rounded-lg p-6">
+            <h3 className="text-lg font-semibold mb-4">How it works</h3>
+            <div className="grid md:grid-cols-4 gap-4 text-sm">
+              <div className="bg-white rounded-lg p-4">
+                <div className="text-2xl mb-2">1️⃣</div>
+                <p className="font-semibold">Describe</p>
+                <p className="text-gray-600 text-xs">Tell the AI what you want</p>
+              </div>
+              <div className="bg-white rounded-lg p-4">
+                <div className="text-2xl mb-2">2️⃣</div>
+                <p className="font-semibold">Generate</p>
+                <p className="text-gray-600 text-xs">AI creates the code</p>
+              </div>
+              <div className="bg-white rounded-lg p-4">
+                <div className="text-2xl mb-2">3️⃣</div>
+                <p className="font-semibold">Preview</p>
+                <p className="text-gray-600 text-xs">See it running live</p>
+              </div>
+              <div className="bg-white rounded-lg p-4">
+                <div className="text-2xl mb-2">4️⃣</div>
+                <p className="font-semibold">Refine</p>
+                <p className="text-gray-600 text-xs">Iterate until perfect</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 text-gray-500 text-sm">
+            No login required • Powered by AI • Free to use
+          </div>
+
+          <div className="mt-4">
+            <Link
+              href="/chat-demo"
+              className="text-sm text-blue-600 hover:underline"
+            >
+              View WhatsApp-style chat demo →
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
